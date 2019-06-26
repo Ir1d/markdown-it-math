@@ -4,7 +4,8 @@
 
 var ascii2mathml = null;
 require('./lib/polyfills');
-
+let deasyncPromise = require('deasync-promise');
+// let deasync = require('deasync');
 
 function scanDelims(state, start, delimLength) {
   var pos = start, lastChar, nextChar, count, can_open, can_close,
@@ -202,37 +203,61 @@ function makeMath_block(open, close) {
 function makeMathRenderer(renderingOptions) {
   if (ascii2mathml === null) {
     try {
-      ascii2mathml = require('ascii2mathml').default;
+      ascii2mathml = require("mathjax-node");
     } catch (e) {
       return renderingOptions && renderingOptions.display === 'block' ?
-        function(tokens, idx) {
-          return '<div class="math block">' + tokens[idx].content + '</div>';
-        } :
-        function(tokens, idx) {
+      function(tokens, idx) {
+        return '<div class="math block">' + tokens[idx].content + '</div>';
+      } :
+      function(tokens, idx) {
           return '<span class="math inline">' + tokens[idx].content + '</span>';
         };
     }
   }
+  // ascii2mathml.config(Object.assign({}, renderingOptions));
+  let mathml = ascii2mathml;
+  mathml.start();
+  // var mathml = ascii2mathml(Object.assign({}, renderingOptions));
 
-  var mathml = ascii2mathml(Object.assign({}, renderingOptions));
-
+  let myOptions = renderingOptions
+  // console.log(myOptions)
   return renderingOptions && renderingOptions.display === 'block' ?
     function(tokens, idx) {
-      return mathml(tokens[idx].content) + '\n';
+      let yourMath = tokens[idx].content
+      let conf = Object.assign({math: yourMath}, myOptions)
+      // console.log(renderingOptions.display)
+      let {svg} = deasyncPromise(mathml.typeset(conf));
+      // console.log(typeof svg)
+      
+      return svg + '\n';
+      // return mathml.typeset(renderingOptions,) + '\n';
     } :
     function(tokens, idx) {
-      return mathml(tokens[idx].content);
-    };
+      let yourMath = tokens[idx].content
+      let conf = Object.assign({math: yourMath}, myOptions)
+      // console.log(conf)
+      // console.log(myOptions)
+      let {svg} = deasyncPromise(mathml.typeset(conf));
+      // console.log(typeof svg)
+      
+      return svg;
+      // console.log(w);
+      // console.log(res.svg)
+      // return res.svg;
+      // return '???'
+      // return mathml.typeset(renderingOptions,) + '\n';
+    // })
+  }
 }
 
 
 module.exports = function math_plugin(md, options) {
   // Default options
   options = typeof options === 'object' ? options : {};
-  var inlineOpen = options.inlineOpen || '$$',
-      inlineClose = options.inlineClose || '$$',
-      blockOpen = options.blockOpen || '$$$',
-      blockClose = options.blockClose || '$$$';
+  var inlineOpen = options.inlineOpen || '$',
+      inlineClose = options.inlineClose || '$',
+      blockOpen = options.blockOpen || '$$',
+      blockClose = options.blockClose || '$$';
   var inlineRenderer = options.inlineRenderer ?
         function(tokens, idx) {
           return options.inlineRenderer(tokens[idx].content, tokens[idx]);

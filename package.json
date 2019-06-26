@@ -1,6 +1,6 @@
 {
-  "name": "markdown-it-math",
-  "version": "4.1.1",
+  "name": "markdown-it-mathjax-node",
+  "version": "0.2.0",
   "description": "Markdown-it plugin to include math in your document",
   "main": "index.js",
   "directories": {
@@ -12,7 +12,7 @@
     "dist": "rm -fr dist; mkdir dist; npm run browserify; npm run minify",
     "lint": "eslint index.js lib/",
     "minify": "uglifyjs dist/markdown-it-math.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} ${npm_package_version} ${npm_package_homepage} @license MIT */\" > dist/markdown-it-math.min.js",
-    "prepublish": "npm run dist",
+
     "pretest": "npm run lint",
     "test": "mocha"
   },
@@ -47,5 +47,10 @@
     "mocha": "^6.0.2",
     "texzilla": "^0.9.9",
     "uglify-js": "^3.4.9"
+  },
+  "dependencies": {
+    "deasync": "^0.1.15",
+    "deasync-promise": "^1.0.1",
+    "mathjax-node": "^2.1.1"
   }
 }
