@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-mathjax-node",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Markdown-it plugin to include math in your document",
   "main": "index.js",
   "directories": {
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/runarberg/markdown-it-math"
+    "url": "https://github.com/ir1d/markdown-it-math"
   },
   "keywords": [
     "markdown-it",
