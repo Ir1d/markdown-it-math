@@ -1,3 +1,20 @@
+## This is a markdown-it-mathjax-node
+
+Call Mathjax-node to render math formula in markdown-it. Used deasync to bypass the markdown-it **async only** rule.
+
+```js
+var md = require('markdown-it')()
+            .use(require('markdown-it-mathjax-node'));
+
+let res = md.render('$a_i e^2$。')
+console.log(res)
+// <p>\[x &amp;  (-x) = 1000_{(2)} = 8_{(10)}\] 。</p>
+```
+
+check test.js for more
+
+---
+
 [![npm](https://img.shields.io/npm/v/markdown-it-math.svg)](https://www.npmjs.com/package/markdown-it-math)
 [![Build Status](https://travis-ci.org/runarberg/markdown-it-math.svg?branch=master)](https://travis-ci.org/runarberg/markdown-it-math)
 

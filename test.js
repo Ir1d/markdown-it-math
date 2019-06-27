@@ -1,5 +1,5 @@
 // { svg: true, ex: 8, cjkCharWidth: 18, linebreaks: true },
-options = { ex: 8,
+let options = { ex: 8,
   width: 100,
   useFontCache: true,
   useGlobalCache: false,

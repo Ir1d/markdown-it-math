@@ -258,6 +258,29 @@ module.exports = function math_plugin(md, options) {
       inlineClose = options.inlineClose || '$',
       blockOpen = options.blockOpen || '$$',
       blockClose = options.blockClose || '$$';
+  let defaultOptions = {
+        renderingOptions:
+              {
+                ex: 8,
+                width: 100,
+                useFontCache: true,
+                useGlobalCache: false,
+                linebreaks: true,
+                equationNumbers: "none",
+                html: false,
+                css: false,
+                mml: false,
+                svg: true,
+                speakText: true,
+                speakRuleset: "mathspeak",
+                speakStyle: "default",
+                timeout: 10000,
+                cjkCharWidth: 18,
+                format: "inline-TeX",
+              }
+      }
+      Object.assign(defaultOptions, options);
+      options = defaultOptions;
   var inlineRenderer = options.inlineRenderer ?
         function(tokens, idx) {
           return options.inlineRenderer(tokens[idx].content, tokens[idx]);
